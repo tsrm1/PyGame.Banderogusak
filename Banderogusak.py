@@ -63,7 +63,7 @@ def create_bonus():
     bonus = pygame.transform.scale(pygame.image.load('image/bonus.png').convert_alpha(), bonus_size)    # создаём поверхность "бонуса" и загружаем на неё изображение
     bonus_rect = pygame.Rect(random.randint(0, WIDTH), 0, *bonus.get_size())
     bonus_speed = random.randint(2, 5)                  # создаём произвольную скорость "бонуса"
-    print(f'There are {len(bonuses)} bonuses. Created a new bonus')
+    print(f'There are {len(bonuses)} bonuses. Created a new bonus.')
     return [bonus, bonus_rect, bonus_speed]             # возвращяем данные очередного "бонуса"
 
 CREATE_ENEMY = pygame.USEREVENT + 1
@@ -95,11 +95,11 @@ while not game_over:                            # start game loop
         if event.type == CREATE_BONUS:          # если появилось событие создать "бонус"
             bonuses.append(create_bonus())      # в список "врагов" добавляем новый "бонус"
 
-        if event.type == CHANGE_IMG_HERO:          # если появилось событие создать "бонус"
-            hero_img_index += 1 
-            if hero_img_index == len(hero_images):
-                hero_img_index = 0
-            hero = hero_images[hero_img_index]
+        if event.type == CHANGE_IMG_HERO:           # если появилось событие изменить изображение "героя"
+            hero_img_index += 1                     # увеличиваем счётчик номера изображения "героя"
+            if hero_img_index == len(hero_images):  # если достигли последнего изображения в списке изображений "героя",
+                hero_img_index = 0                  # устанавливаем текущим самое первое изображение в списке изображений "героя"
+            hero = hero_images[hero_img_index]      # присваиваем "герою" текущее изображение
 
     # управление "героем"
     keys = pygame.key.get_pressed()             # в переменную key записываем состояние всех клавиш на клавиатуре
@@ -113,11 +113,11 @@ while not game_over:                            # start game loop
     if keys[pygame.K_DOWN] and hero_rect.bottom < HEIGHT:  # если кнопка K_DOWN нажата и поверхность "героя" не в самом низу
         hero_rect = hero_rect.move(0, hero_attr["speed"])  # свдвигаем поверхность "героя" вниз
 
-    back_ground_dx1 -= back_ground_speed
-    back_ground_dx2 -= back_ground_speed
-    if back_ground_dx1 < -back_ground.get_width():
+    back_ground_dx1 -= back_ground_speed                        # ументшаем координату X 1-го фонового  изображения на величну back_ground_speed
+    back_ground_dx2 -= back_ground_speed                        # ументшаем координату X 2-го фонового  изображения на величну back_ground_speed
+    if back_ground_dx1 < -back_ground.get_width():              # обнуляем смещение 1-го фонового изображения на ширину фонового изображения
         back_ground_dx1 = back_ground.get_width()
-    if back_ground_dx2 < -back_ground.get_width():
+    if back_ground_dx2 < -back_ground.get_width():              # обнуляем смещение 2-го фонового изображения на ширину фонового изображения
         back_ground_dx2 = back_ground.get_width()
 
     main_surface.blit(back_ground, (back_ground_dx1, 0))        # накладываем поверность "бэкгроунд" №1 на основную поверхность "фон"
@@ -125,7 +125,7 @@ while not game_over:                            # start game loop
     main_surface.blit(hero, hero_rect)                          # накладываем поверность "героя" на основную поверхность "фон"
 
     for enemy in enemies:
-        enemy[1] = enemy[1].move(-enemy[2], 0)
+        enemy[1] = enemy[1].move(-enemy[2], 0)  # свдивгаем поверхность текущего "врага" влево на величину enemy_speed
         if enemy[1].left < 0:                   # если поверхность "врага" ушла за левый край рабочего окна
             enemies.pop(enemies.index(enemy))   # удаляем "врага" из списка "врагов"
             print(f'There are {len(enemies)} enemies. Delete one old enemy.')
@@ -133,9 +133,10 @@ while not game_over:                            # start game loop
             main_surface.blit(enemy[0], enemy[1])   # накладываем поверхность "врага" на основную поверхность "фон"
 
         for bonus in bonuses:
-            if (enemy[1]).colliderect(bonus[1]):         # если плоскость "героя" пересеклась с плоскостью "бонус"
+            if (enemy[1]).colliderect(bonus[1]):        # если плоскость "героя" пересеклась с плоскостью "бонус"
                 bonuses.pop(bonuses.index(bonus))       # удаляем "бонус" из списка "бонусов"
-                score_damage += 1
+                enemies.pop(enemies.index(enemy))       # удаляем "врага" из списка "врогов"
+                score_damage += 1                       # увеличиваем счётчик сбитых "бонусов"
                 # print(f'There are {len(bonuses)} bonuses. Delete one old bonus. Score = {score}')
         
         if hero_rect.colliderect(enemy[1]):         # если плоскость "героя" пересеклась с плоскостью "врага"
@@ -143,17 +144,17 @@ while not game_over:                            # start game loop
             print(f'Игра окнчена. Ваш "герой" погиб. Вы набрали {score} очков.')
 
     for bonus in bonuses:
-        bonus[1] = bonus[1].move(0, bonus[2])
+        bonus[1] = bonus[1].move(0, bonus[2])           # сдвигаем поверхность "бонус" вниз на bonus_speed px
         if bonus[1].bottom > bildings_heights:          # если поверхность "бонус" ушла за нижний край рабочего окна
             bonuses.pop(bonuses.index(bonus))           # удаляем "бонус" из списка "бонусов"
-            score_fall +=1
+            score_fall +=1                              # увеличиваем счётчик пропущенных "бонусов"
             print(f'There are {len(bonuses)} bonuses. Delete one old bonus.')
         else:                                       # иначе
             main_surface.blit(bonus[0], bonus[1])   # накладываем поверхность "врага" на основную поверхность "фон"
 
         if hero_rect.colliderect(bonus[1]):         # если плоскость "героя" пересеклась с плоскостью "бонус"
             bonuses.pop(bonuses.index(bonus))       # удаляем "бонус" из списка "бонусов"
-            score += 1
+            score += 1                              # увеличиваем счётчик пойманных "бонусов"
             print(f'There are {len(bonuses)} bonuses. Delete one old bonus. Score = {score}')
 
 
@@ -166,8 +167,8 @@ while not game_over:                            # start game loop
     clock.tick(FPS)                     # вызывааем метод tick() класса Clock(), устанавливаем задержку для цикла, FPS
                                         # FPS раз в секунду с учётом времени на выполнение операций в самом цикле
 
-main_surface.blit(font_game_over.render('Гусю капець. Ігрі кінець.', True, RED), (WIDTH/2-250, HEIGHT/2-20))  # накладываем поверность "текст" на основную поверхность "фон"
+main_surface.blit(font_game_over.render('Гусаку капець. Грі кінець.', True, RED), (WIDTH/2-250, HEIGHT/2-20))  # накладываем поверность "текст" на основную поверхность "фон"
 pygame.display.update()             # вывод прямоугольной области (списка областей) из буфера
-time.sleep(3)
-pygame.quit()  # выход из модуля pygame
-quit()
+time.sleep(3)                       # устанавливаем задержку на 3 секунды
+pygame.quit()                       # выход из модуля pygame
+quit()                              # выход из программы

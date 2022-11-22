@@ -7,7 +7,7 @@ import pygame                           # импортируем библиот�
 import spritesheet                      # импортируем библиотеку spritesheet (создали отдельно, находиться в той же папке)
 pygame.init()                           # инициализируем/вызываем библиотеку pygame
 screen_size = WIDTH, HEIGHT = 1600, 900  # ширина и высота окна
-main_surface = pygame.display.set_mode((screen_size), pygame.DOUBLEBUF | pygame.HWSURFACE) # создаём поверхность отрисовки
+main_surface = pygame.display.set_mode((screen_size), pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.FULLSCREEN) # создаём поверхность отрисовки
 # set_mode(Width, Height) - формируем/вызываем окно (щирина, высота) в pixel
 # pygame.DOUBLEBUF - двойная буферизация
 # pygame.HWSURFACE - аппаратное ускорение отрисовки

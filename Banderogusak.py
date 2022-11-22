@@ -6,7 +6,7 @@ from os import listdir                  # импортируем метод list
 import pygame                           # импортируем библиотеку pygame
 import spritesheet                      # импортируем библиотеку spritesheet (создали отдельно, находиться в той же папке)
 pygame.init()                           # инициализируем/вызываем библиотеку pygame
-screen_size = WIDTH, HEIGHT = 1600, 900  # ширина и высота окна
+screen_size = WIDTH, HEIGHT = 1920, 1080  # ширина и высота окна
 main_surface = pygame.display.set_mode((screen_size), pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.FULLSCREEN) # создаём поверхность отрисовки
 # set_mode(Width, Height) - формируем/вызываем окно (щирина, высота) в pixel
 # pygame.DOUBLEBUF - двойная буферизация
@@ -89,15 +89,15 @@ def create_explode(version, center):
             "img_numer": 0,
             "img_numer_max": 20,
         }
-    else:
-        explode_size = (192, 192)                               # создаём размер поверхности "взрыва"
-        explode = {
-            #"image": pygame.transform.scale(img, enemy_size),    # создаём поверхность "врага" и загружаем на неё изображение
-            "rect": pygame.Rect(center, explode_size),
-            #"speed": random.randint(4, 10),                  # создаём произвольную скорость "взрыва"
-            "img_numer": 0,
-            "img_numer_max": 20,
-        }
+    # else:
+    #     explode_size = (192, 192)                               # создаём размер поверхности "взрыва"
+    #     explode = {
+    #         #"image": pygame.transform.scale(img, enemy_size),    # создаём поверхность "врага" и загружаем на неё изображение
+    #         "rect": pygame.Rect(center, explode_size),
+    #         #"speed": random.randint(4, 10),                  # создаём произвольную скорость "взрыва"
+    #         "img_numer": 0,
+    #         "img_numer_max": 20,
+    #     }
     print(f'There are {len(explosions)+1} explosions. Created a new explode.', explode)  
     return explode            # возвращяем данные очередного "взрыва"
 
@@ -130,7 +130,7 @@ sprite_sheet_hero_explotion = spritesheet.SpriteSheet(sprite_sheet_image_exploti
 hero_explotion_frames = sprite_sheet_hero_explotion.strip_from_sheet(8, 6, 256, 256, 1)   # (col_row, col_span, width, height, scale, colour=(0, 0, 0))
 hero_explotion_frame_numer = 0
 
-sprite_sheet_image_explotion_bonus = pygame.image.load('image/sprite-explosion-20p-192x.png').convert_alpha()
+sprite_sheet_image_explotion_bonus = pygame.image.load('image/sprite-explosion-20p-192x192.png').convert_alpha()
 sprite_sheet_bonus_explotion = spritesheet.SpriteSheet(sprite_sheet_image_explotion_bonus)
 bonus_explotion_frames = sprite_sheet_bonus_explotion.strip_from_sheet(5, 4, 192, 192, 1)   # (col_row, col_span, width, height, scale, colour=(0, 0, 0))
 
